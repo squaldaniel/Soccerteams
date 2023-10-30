@@ -34,4 +34,9 @@ class SoccerMatchesController extends Controller
             ]);
             return redirect('/');
         }
+    public static function listall()
+        {
+            $matches = SoccerMatchesModel::where('realized', 0)->get()->toArray();
+            return view('bootstrap.listmatches')->with(['matches' => $matches]);
+        }
 }

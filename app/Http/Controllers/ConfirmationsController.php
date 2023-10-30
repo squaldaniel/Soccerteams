@@ -108,105 +108,6 @@ class ConfirmationsController extends Controller
             }
             return $times;
         }
-    public function primeiros($times, $jogadores, $limit)
-        {
-            $quant = count($times)-1;
-            $players = count($jogadores)-1;
-            $total_jogadores = count($jogadores);
-            $n = 0;
-            $m = 0;
-            $formedTeams = [];
-            while($m <= $total_jogadores){
-                array_push($times[$n], $jogadores[$m]);
-                unset($jogadores[$m]);
-                $n++;
-                $m++;
-                if($n > $quant){
-                    $n = 0;
-                }
-                if($m >= $total_jogadores){
-                    break;
-                }
-            }
-            dd($times);
-            exit;
-            /*
-                foreach ($jogadores as $key => $player)
-                {
-                        array_push($times[$n], $player);
-                        unset($jogadores[$m]);
-                        if (count($times[$n]) == $limit){
-                        }
-                        $n++;
-                        $m++;
-                        if ($n > $quant){
-                            $n = 0;
-                        }
-
-                }
-            */
-            //dd($quant);
-            //dd(count($times) , $players);
-            //dd($players);
-            /*
-            while ($m < $total_jogadores) {
-                if (count($times[$n]) <= $limit){
-                    if (array_key_exists($n, $times)){
-                        array_push($times[$n], $jogadores[$m]);
-                        unset($jogadores[$m]);
-                        if (count($times[$n]) == $limit){
-                            array_push($formedTeams, $times[$n]);
-                            unset($times[$n]);
-                            array_values($times);
-                        }
-                        $n++;
-                        $m++;
-                        if($n > $quant){
-                                $n = 0;
-                            }
-                    }
-                }
-
-                //dd($times[$n]);
-                /*
-                //foreach ($jogadores as $key => $jogador){
-                    if (count($times[$n]) < $limit && array_key_exists($n, $times)){
-                        if(count($times[$n]) == $limit){
-                            $n++;
-                            } else {
-                                array_push($times[$n], $jogadores[$m]);
-                                unset($jogadores[$m]);
-                                $n++;
-                                $m++;
-                                if($n > $quant){
-                                    $n = 0;
-                                } // close
-                            }
-                    } else {
-                        //dd($n, $times, $limit);
-                    }
-                } else {dd($times);}
-                //}  foreach
-                //dd($times, $jogadores, $n);
-                /*
-                if (array_key_exists($n, $times)){
-                    array_push($times[$n], $jogadores[$m]);
-                    unset($jogadores[$m]);
-                    $n++;
-                    $m++;
-                    if($n > $quant+1){
-                        $n=0;
-                    }
-                } else {
-                        $n=0;
-                    }
-
-            }
-            */
-            //dd($m , $total_jogadores);
-            return [$times, $jogadores, $formedTeams];
-            //dd(count($times), $players);
-        }
     public function impedirGoleiros($arrTeam)
         {
             $goleiro = [];
@@ -275,4 +176,8 @@ class ConfirmationsController extends Controller
                     ]);
             }
         }
+    public static function listall()
+    {
+        return view('bootstrap.listmatches');
+    }
 }

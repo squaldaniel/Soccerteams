@@ -68,17 +68,38 @@ class SoccerPlayersController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public static function edit(int $id)
     {
-        //
+        $player = SoccerPlayerModel::find($id);
+        return view('bootstrap.editplayer')->with(['player' => $player]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public static function update(int $id)
     {
-        //
+        $request = app('request');
+        if ($request->hasFile('inputphoto')){
+            /**
+             * upload da foto
+             */
+            $filenameWithExt = $request->file('inputphoto')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('inputphoto')->getClientOriginalExtension();
+            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            Storage::disk('public_uploads')->put($fileNameToStore, $request->file('inputphoto')->getContent());
+            } else {
+            return false;
+        }
+        $photoname = $fileNameToStore;
+        SoccerPlayerModel::where('id', $id)->update([
+           'soccerplayer' => $request->input("floatname"),
+            'level' => $request->input("levelinput"),
+            'goalkeeper' => $request->input("goalkeeperinput"),
+            'photo'=> '/img/'.$photoname
+        ]);
+        return redirect()->route('listall');
     }
 
     /**

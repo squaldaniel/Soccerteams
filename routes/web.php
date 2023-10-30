@@ -15,21 +15,23 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', [App\Http\Controllers\SoccerPlayersController::class, 'index']);
+// Rotas dos Jogadores
 Route::group(['prefix'=>'soccerplayer'], function(){
     Route::get('create', fn() => App\Http\Controllers\SoccerPlayersController::create());
     Route::post('store', [App\Http\Controllers\SoccerPlayersController::class, 'store']);
-    Route::get('list', [App\Http\Controllers\SoccerPlayersController::class, 'listall']);
+    Route::get('list', [App\Http\Controllers\SoccerPlayersController::class, 'listall'])->name('listall');
+    Route::get('edit/{id}', fn($id) => App\Http\Controllers\SoccerPlayersController::edit($id));
+    Route::post('update/{id}', fn($id) => App\Http\Controllers\SoccerPlayersController::update($id));
+
 });
+//rotas das partidas
 Route::group(['prefix'=> 'soccermatches'], function (){
     Route::get('create', fn() => App\Http\Controllers\SoccerMatchesController::create());
     Route::post('store', fn() => App\Http\Controllers\SoccerMatchesController::store());
+    Route::get('list', fn() => App\Http\Controllers\SoccerMatchesController::listall());
 });
 Route::group(['prefix'=>'confirmations'], function(){
     Route::get('show/{id}', fn ($id) => (new App\Http\Controllers\ConfirmationsController)->show($id));
     Route::post('create', fn () => App\Http\Controllers\ConfirmationsController::create());
     Route::post('startgame', [App\Http\Controllers\ConfirmationsController::class, 'preTeams']);
-    //Route::get('preteams', [App\Http\Controllers\ConfirmationsController::class, 'preTeams']);
-});
-Route::get('testes', function(){
-    //return (new app\Models\SoccerPlayerModel)->updateGoalKeeper();
 });

@@ -13,7 +13,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link active dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Partidas</a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Listar partidas</a></li>
+              <li><a class="dropdown-item" href="/soccermatches/list">Listar partidas</a></li>
               <li class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="/soccermatches/create">Marcar jogo</a></li>
             </ul>
