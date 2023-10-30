@@ -19,3 +19,5 @@ E por fim, execute as seeds para que dados iniciais de teste possam ser visualiz
 <img src="/public/img/responsive.png" width="100px">
 
 #### ver a Aplicação online funcionando
+para ser esta aplição funcional e onlin e vá ao endereço deste [link](https://soccerteam.laravelfullstack.com.br/)
+
