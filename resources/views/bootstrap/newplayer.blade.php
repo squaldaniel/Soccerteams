@@ -1,4 +1,7 @@
 @extends('bootstrap.model')
+@section('header')
+    @include('bootstrap.topmenu')
+@endsection
 @section('body')
     <form action="/soccerplayer/store" method="POST" enctype="multipart/form-data">
         @csrf

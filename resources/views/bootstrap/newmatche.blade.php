@@ -1,4 +1,7 @@
 @extends('bootstrap.model')
+@section('header')
+    @include('bootstrap.topmenu')
+@endsection
 @section('body')
 <div class="container-fluid">
     <div class="row align-items-center g-lg-5 py-5">
