@@ -15,5 +15,6 @@ E por fim, execute as seeds para que dados iniciais de teste possam ser visualiz
 ```shell
  php artisan db:seed
 ```
+## Prints da aplicação
 <img src="/public/img/responsive.png" width="100px">
 
