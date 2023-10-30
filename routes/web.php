@@ -18,6 +18,7 @@ Route::get('/', [App\Http\Controllers\SoccerPlayersController::class, 'index']);
 Route::group(['prefix'=>'soccerplayer'], function(){
     Route::get('create', fn() => App\Http\Controllers\SoccerPlayersController::create());
     Route::post('store', [App\Http\Controllers\SoccerPlayersController::class, 'store']);
+    Route::get('list', [App\Http\Controllers\SoccerPlayersController::class, 'listall']);
 });
 Route::group(['prefix'=> 'soccermatches'], function (){
     Route::get('create', fn() => App\Http\Controllers\SoccerMatchesController::create());

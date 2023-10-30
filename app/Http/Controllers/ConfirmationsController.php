@@ -207,25 +207,21 @@ class ConfirmationsController extends Controller
             return [$times, $jogadores, $formedTeams];
             //dd(count($times), $players);
         }
-    public function primeiros2($times, $jogadores, $limit)
+    public function impedirGoleiros($arrTeam)
         {
-            $quant = count($times)-1;
-            $players = count($jogadores)-1;
-            $n = 0;
-            $m = 0;
-            while (count($times[$quant]) <= $limit) {
-                    array_push($times[$n], $jogadores[$m]);
-                    unset($jogadores[$m]);
-                    $n++;
-                    $m++;
-                    if($n == $quant+1){
-                        $n = 0;
-                        };
-                    if($m == $players+1){
-                        return [$times, $jogadores];
-                        };
+            $goleiro = [];
+            foreach ($arrTeam as $key => $team) {
+                foreach($team as $k => $player){
+                    if ($player["goalkeeper"] == 1){
+                        array_push($goleiro, ['team'=> $key, $player]);
+                        if(array_key_exists($key, $goleiro)){
+                            //dd(['ja existe', $goleiro]);
+                            return $this->getTeams();
+                        }
+                    }
+                }
             }
-           // return [$times, $jogadores];
+            return ($te);
         }
     public function getTeams(Request $request)
         {
@@ -250,6 +246,8 @@ class ConfirmationsController extends Controller
                             ->orderby('sortition', 'ASC')->get()->toArray();
                     //divide os times
                     $times = array_chunk($playersSortition, $PlayersForTeam);
+                    $times = $this->impedirGoleiros($times);
+                    dd($times);
                     return $times;
                 } else {
                     // caso não tenha retorna mensagem

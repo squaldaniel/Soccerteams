@@ -88,4 +88,10 @@ class SoccerPlayersController extends Controller
     {
         //
     }
+    public function listall()
+        {
+            $players = SoccerPlayerModel::all();
+            return view('bootstrap.players')
+            ->with(['players' => $players]);
+        }
 }

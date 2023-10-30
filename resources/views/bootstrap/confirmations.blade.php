@@ -1,4 +1,7 @@
 @extends('bootstrap.model')
+@section('header')
+    @include('bootstrap.topmenu')
+@endsection
 @section('body')
 <div class="container-fluid py-3">
     <div class="row">

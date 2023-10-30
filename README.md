@@ -1,11 +1,15 @@
 # Social Soccer 
-> ** nota **
-aplicação desenvolvida com objetivo de demonstrar conhecimentos backend em Laravel.
+> * Nota *
+Aplicação desenvolvida com objetivo de demonstrar conhecimentos back-end em Laravel.
 
-## partida de futebol entre amigos.
+## Partida de futebol entre amigos.
 Após clonar o prepositório, configure seu arquivo .env colocando as informações de usuario, senha e nome do banco de dados, depois execute o comando par instalar as dependecias do framework Laravel.
 ```shell
  composer install
+```
+execute a geração de chave da applicação com o comando:
+```shell
+ php artisan key:generate
 ```
 Depois execute as migrações para que as tabelas sejam criadas.
 ```shell

@@ -1,4 +1,7 @@
 @extends('bootstrap.model')
+@section('header')
+    @include('bootstrap.topmenu')
+@endsection
 @section('body')
     <div class="container-fluid">
         <div class="p-2 text-center bg-body-tertiary">

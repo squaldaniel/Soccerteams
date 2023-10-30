@@ -21,7 +21,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link active dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Jogadores</a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/">Listar todos</a></li>
+              <li><a class="dropdown-item" href="/soccerplayer/list">Listar todos</a></li>
               <li class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="/soccerplayer/create">Criar</a></li>
             </ul>
