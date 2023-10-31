@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\SoccerMatchesModel;
 use App\Models\SoccerPlayerModel;
 use App\Models\ConfirmationsModel;
-use Illuminate\Support\Facades\Redirect;
 
 class ConfirmationsController extends Controller
 {
@@ -52,7 +51,6 @@ class ConfirmationsController extends Controller
             if(is_array($teamsormessage)){
                 return view('bootstrap.preteams')->with(['teams'=>$teamsormessage]);
             } else {
-                //return view('bootstrap.preteams')->with(['message'=>$teamsormessage]);
                 return redirect()->back()->with('msg', 'Não há o mínimo de jogadores para formar 2 times');
             }
 
@@ -116,6 +114,7 @@ class ConfirmationsController extends Controller
                     if ($player["goalkeeper"] == 1){
                         array_push($goleiro, ['team'=> $key, $player]);
                         if(array_key_exists($key, $goleiro)){
+
                             //dd(['ja existe', $goleiro]);
                             return $this->getTeams();
                         }
@@ -148,7 +147,7 @@ class ConfirmationsController extends Controller
                             ->orderby('sortition', 'ASC')->get()->toArray();
                     //divide os times
                     $times = array_chunk($playersSortition, $PlayersForTeam);
-                    $times = $this->impedirGoleiros($times);
+                    //$times = $this->impedirGoleiros($times);
                     return $times;
                 } else {
                     // caso não tenha retorna mensagem
