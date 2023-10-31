@@ -6,9 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\SoccerMatchesModel;
 use App\Models\SoccerPlayerModel;
 use App\Models\ConfirmationsModel;
-use Illuminate\Validation\Rules\Exists;
-
-use function PHPUnit\Framework\countOf;
+use Illuminate\Support\Facades\Redirect;
 
 class ConfirmationsController extends Controller
 {
@@ -49,11 +47,13 @@ class ConfirmationsController extends Controller
         }
     public  function preTeams(Request $request)
         {
+            $request = app('request');
             $teamsormessage = $this->getTeams($request);
             if(is_array($teamsormessage)){
                 return view('bootstrap.preteams')->with(['teams'=>$teamsormessage]);
             } else {
-                return view('bootstrap.preteams')->with(['message'=>$teamsormessage]);
+                //return view('bootstrap.preteams')->with(['message'=>$teamsormessage]);
+                return redirect()->back()->with('msg', 'Não há o mínimo de jogadores para formar 2 times');
             }
 
         }
@@ -122,10 +122,11 @@ class ConfirmationsController extends Controller
                     }
                 }
             }
-            return ($te);
+            return ($arrTeam);
         }
-    public function getTeams(Request $request)
+    public function getTeams()
         {
+            $request = app('request');
             $matche = (int) $request->input('matche');
             $players = $this->getForMatche($matche);
             $totalPlayers = count($players['confirmations']);
@@ -148,11 +149,11 @@ class ConfirmationsController extends Controller
                     //divide os times
                     $times = array_chunk($playersSortition, $PlayersForTeam);
                     $times = $this->impedirGoleiros($times);
-                    dd($times);
                     return $times;
                 } else {
                     // caso não tenha retorna mensagem
-                    return 'sem o minimo possivel para jogar';
+                    //return Redirect::back()->with('msg', 'Não há o mínimo de jogadores para formar 2 times');
+                    return false;
                 };
         }
     public function getForMatche(int $matchId)
@@ -177,7 +178,7 @@ class ConfirmationsController extends Controller
             }
         }
     public static function listall()
-    {
-        return view('bootstrap.listmatches');
-    }
+        {
+            return view('bootstrap.listmatches');
+        }
 }

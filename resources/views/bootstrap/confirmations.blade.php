@@ -3,6 +3,11 @@
     @include('bootstrap.topmenu')
 @endsection
 @section('body')
+@if (session('msg'))
+    <div class="alert alert-danger" role="alert">
+        {{ session('msg') }}
+      </div>
+@endif
 <div class="container-fluid py-3">
     <div class="row">
         <div class="col-md-6">
