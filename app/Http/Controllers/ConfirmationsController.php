@@ -106,23 +106,87 @@ class ConfirmationsController extends Controller
             }
             return $times;
         }
-    public function impedirGoleiros($arrTeam)
+    public function impedirGoleiros($arrTeam, $quantplayers)
         {
-            $goleiro = [];
+            //separar os goleiros
+            $goleiros = [];
             foreach ($arrTeam as $key => $team) {
                 foreach($team as $k => $player){
                     if ($player["goalkeeper"] == 1){
-                        array_push($goleiro, ['team'=> $key, $player]);
-                        if(array_key_exists($key, $goleiro)){
-
-                            //dd(['ja existe', $goleiro]);
-                            return $this->getTeams();
-                        }
+                        array_push($goleiros, $player);
+                        unset($arrTeam[$key][$k]);
                     }
                 }
             }
+            // tirar 01 jogador dos times completos
+            $playersExtra = [];
+            foreach ($arrTeam as $key => $team) {
+                if(count($team) == $quantplayers){
+                    array_push($playersExtra, $team[0]);
+                    unset($arrTeam[$key][0]);
+                }
+            }
+            // adicionar um goleiro em cada time
+            $goalkeeper = 0;
+            foreach ($arrTeam as $key => $team) {
+                if (isset($goleiros[$goalkeeper])){
+                    array_push($arrTeam[$key], $goleiros[$goalkeeper]);
+                    unset($goleiros[$goalkeeper]);
+                }
+                $goalkeeper++;
+            }
+            // separar os times incompletos
+            $incompletos = [];
+            foreach($arrTeam as $key => $team){
+                if(count($team) < $quantplayers){
+                    array_push($incompletos, $arrTeam[$key]);
+                    unset($arrTeam[$key]);
+                };
+            }
+            if(!$incompletos){
+                while(count($incompletos[array_key_first($incompletos)]) < $quantplayers && count($playersExtra) > 0 ){
+                    array_push($incompletos[array_key_first($incompletos)], $playersExtra[array_key_first($playersExtra)]);
+                    unset($playersExtra[array_key_first($playersExtra)]);
+                    if(count($incompletos[array_key_first($incompletos)]) == $quantplayers){
+                        array_push($arrTeam, $incompletos[array_key_first($incompletos)]);
+                        unset($incompletos[array_key_first($incompletos)]);
+                    }
+                }
+                if ($incompletos > 1){
+                    array_push($arrTeam, $incompletos[array_key_first($incompletos)]);
+                    unset($incompletos[array_key_first($incompletos)]);
+                }
+                $arrTeam = array_merge($arrTeam, $incompletos);
+            }
+            if($playersExtra){
+                if (count($playersExtra) > 0 && count($incompletos) > 0){
+                    while(count($incompletos[array_key_first($incompletos)]) < $quantplayers && count($playersExtra) > 0 ){
+                        array_push($incompletos[array_key_first($incompletos)], $playersExtra[array_key_first($playersExtra)]);
+                        unset($playersExtra[array_key_first($playersExtra)]);
+                        if(count($playersExtra) == 0){
+                            unset($playersExtra);
+                            }
+                        if(count($incompletos) == 0){
+                            unset($incompletos);
+                            }
+                    }
+                if(isset($playersExtra) && count($playersExtra)==1){
+                    $arrTeam = array_merge($arrTeam, $playersExtra[array_key_first($playersExtra)]);
+                }
+                if(isset($incompletos) && count($incompletos)==1){
+                    $arrTeam = array_merge($arrTeam, $incompletos[array_key_first($incompletos)]);
+                }
+            }
+            $arrTeam = array_merge($arrTeam, $incompletos[array_key_first($incompletos)]);
+            }
             return ($arrTeam);
         }
+    /**
+     * Derscribe:  função responsavel por separa os times na quantidade
+     *             selecionada
+     * @param void
+     * @return array com os times;
+     */
     public function getTeams()
         {
             $request = app('request');
@@ -147,7 +211,7 @@ class ConfirmationsController extends Controller
                             ->orderby('sortition', 'ASC')->get()->toArray();
                     //divide os times
                     $times = array_chunk($playersSortition, $PlayersForTeam);
-                    //$times = $this->impedirGoleiros($times);
+                    $times = $this->impedirGoleiros($times, $PlayersForTeam);
                     return $times;
                 } else {
                     // caso não tenha retorna mensagem
